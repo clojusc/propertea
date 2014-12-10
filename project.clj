@@ -1,4 +1,4 @@
-(defproject cc.artifice/propertea "1.4.0"
+(defproject cc.artifice/propertea "1.4.1"
   :description "load, coerce, and validate property files"
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [expectations "2.0.13"]]

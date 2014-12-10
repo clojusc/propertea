@@ -1,6 +1,6 @@
 (ns propertea.core
   (:require clojure.walk clojure.set clojure.string)
-  (:import [java.io FileReader InputStream]
+  (:import [java.io FileReader BufferedInputStream]
            [java.util Properties]))
 
 (defn keywordize-keys-unless [m b]
@@ -111,7 +111,7 @@
     (validate required)
     (dump dump-fn)))
 
-(defmethod read-properties InputStream [stream & x]
+(defmethod read-properties BufferedInputStream [stream & x]
   (let [props (input-stream->properties stream)]
     (apply read-properties props x)))
 
