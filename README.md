@@ -23,6 +23,10 @@ few of the properties to their desired types.
 (println props) 
 ; => {:int-example 1, :string-example "hello-string", :boolean-example true}
 </pre>
+An input stream can be used instead of a filename. This is useful to read property files in a Jar:
+<pre>
+(read-properties (.getResourceAsStream (.getContextClassLoader (Thread/currentThread)) "some.properties"))
+</pre>
 propertea can also validate that required properties are specified.
 <pre>
 ; assuming the same properties file as above

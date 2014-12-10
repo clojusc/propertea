@@ -6,10 +6,13 @@
 
 (def fp (clojure.java.io/file "test/fake.properties"))
 
+(def instream (clojure.java.io/input-stream fp))
+
 (def props (doto (Properties.) (.setProperty "key-from-properties" "value-in-properties")))
 
 ;;; read a string
 (expect "hello-string" (:string-example (read-properties fp)))
+(expect "hello-string" (:string-example (read-properties instream)))
 
 ;;; read a string from properties object
 (expect "value-in-properties" (:key-from-properties (read-properties props)))
