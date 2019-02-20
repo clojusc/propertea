@@ -76,7 +76,11 @@ $ lein install
 
 ## License
 
-Copyright © 2010, Jay Fields
+Copyright © 2010-2012, Jay Fields
+
+Copyright © 2013-2014, Joshua Eckroth
+
+Copyright © 2019, Clojure-Aided Enrichment Center
 
 All rights reserved.
 
