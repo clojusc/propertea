@@ -1,52 +1,83 @@
 # propertea
 
-> simple property loading, coercing, and validating
+*Simple property loading, coercing, and validating*
+
 
 ## An Example
 
 propertea can be used to load a property file, convert, and
 validate. The following snippet shows loading a file and converting a
 few of the properties to their desired types.
-<pre>
+
+```clj
 ;Given the following properties file
 ;string-example=hello-string
 ;int-example=1
 ;boolean-example=true
 
-(ns example 
-  (:use propertea.core))         
+(ns example
+  (:use propertea.core))
 
-(def props (read-properties "test/fake.properties" 
-                            :parse-int [:int-example] 
+(def props (read-properties "test/fake.properties"
+                            :parse-int [:int-example]
                             :parse-boolean [:boolean-example]))
 
-(println props) 
+(println props)
 ; => {:int-example 1, :string-example "hello-string", :boolean-example true}
-</pre>
+```
+
 An input stream can be used instead of a filename. This is useful to read property files in a Jar:
-<pre>
-(read-properties (.getResourceAsStream (.getContextClassLoader (Thread/currentThread)) "some.properties"))
-</pre>
+
+```clj
+(read-properties
+  (.getResourceAsStream
+    (.getContextClassLoader (Thread/currentThread))
+    "some.properties"))
+```
+
 propertea can also validate that required properties are specified.
-<pre>
+
+```clj
 ; assuming the same properties file as above
 
-(ns example 
-  (:use propertea.core))         
+(ns example
+  (:use propertea.core))
 
-(def props (read-properties "test/fake.properties" :required [:req-prop])) 
+(def props (read-properties "test/fake.properties" :required [:req-prop]))
 ; => java.lang.RuntimeException: (:req-prop) are required, but not found
-</pre>
+```
+
 
 ## Installing
 
-The easiest way is via Leiningen. Add the following dependency to your project.clj file:<pre>[propertea "1.2.3"]</pre>
-To build from source, run the following commands:<pre>lein deps
-lein jar</pre>
+The easiest way is via Leiningen. Add the following dependency to your project.clj file:
+
+```clj
+[clojusc/propertea "1.4.2"]
+```
+
+To build from source and install locally, run the following commands:
+
+```
+$ lein deps
+$ lein jar
+$ lein install
+```
+
+
+## Version History
+
+| Release     | Clojure     | Maintainer     | Notes
+| ----------- | ----------- | -------------- | ---------------------------------- |
+| 1.4.2       | 1.10.0      | clojusc        | 100% compatible with 1.4.1         |
+| 1.4.1       | 1.5.1       | Joshua Eckroth | Version from which clojusc forked  |
+| 1.3.1       | 1.2.0       | Jay Fields     | Version from which Josh forked     |
+
 
 ## License
 
-Copyright (c) 2010, Jay Fields
+Copyright © 2010, Jay Fields
+
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
