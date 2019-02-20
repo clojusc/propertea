@@ -1,4 +1,4 @@
-(defproject clojusc/propertea "1.4.2"
+(defproject clojusc/propertea "1.5.0-SNAPSHOT"
   :description "Load, coerce, and validate property files."
   :dependencies [
     [org.clojure/clojure "1.10.0"]
