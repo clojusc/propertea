@@ -6,3 +6,5 @@ classes
 .lein-deps-sum
 .fig
 package.fig
+/target
+.eastwood
