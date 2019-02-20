@@ -1,10 +1,7 @@
 (defproject clojusc/propertea "1.5.0-SNAPSHOT"
   :description "Load, coerce, and validate property files."
   :dependencies [
-    [org.clojure/clojure "1.10.0"]
-    [expectations "2.1.10"]]
-  :plugins [
-    [lein-expectations "0.0.8"]]
+    [org.clojure/clojure "1.10.0"]]
   :profiles {
     :ubercompile {
       :aot :all}
@@ -14,7 +11,12 @@
       :plugins [
         [jonase/eastwood "0.3.5"]
         [lein-ancient "0.6.15"]
-        [lein-kibit "0.1.6"]]}}
+        [lein-kibit "0.1.6"]]}
+    :test {
+      :dependencies [
+        [expectations "2.1.10"]]
+      :plugins [
+        [lein-expectations "0.0.8"]]}}
   :aliases {
     ;; Dev & Testing Aliases
     "repl" ["do"
