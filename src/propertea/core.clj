@@ -1,26 +1,30 @@
 (ns propertea.core
-  (:require clojure.walk clojure.set clojure.string)
-  (:import [java.io FileReader BufferedInputStream]
-           [java.util Properties]))
+  (:require
+    [clojure.set :as set]
+    [clojure.string :as string]
+    [clojure.walk :as walk])
+  (:import
+    (java.io FileReader BufferedInputStream)
+    (java.util Properties)))
 
 (defn keywordize-keys-unless [m b]
   (if b
     m
-    (clojure.walk/keywordize-keys m)))
+    (walk/keywordize-keys m)))
 
 (defn dash-match [[ _ g1 g2]]
   (str g1 "-" g2))
 
 (defn dasherize [k]
   (-> k
-      (clojure.string/replace #"([A-Z]+)([A-Z][a-z])" dash-match)
-      (clojure.string/replace #"([a-z\d])([A-Z])" dash-match)
-      (clojure.string/lower-case)))
+      (string/replace #"([A-Z]+)([A-Z][a-z])" dash-match)
+      (string/replace #"([a-z\d])([A-Z])" dash-match)
+      (string/lower-case)))
 
 (defn properties->map [props nested kf]
   (reduce (fn [r [k v]]
             (if nested
-              (assoc-in r (clojure.string/split (kf k) #"\.") v)
+              (assoc-in r (string/split (kf k) #"\.") v)
               (assoc r (kf k) v)))
           {}
           props))
@@ -46,7 +50,7 @@
 (defn validate [m required-list]
   (let [ks (reduce (fn [r [k v]] (if (valid? v) (conj r k) r)) #{} m)
         rks (set required-list)]
-    (if-let [not-found (seq (clojure.set/difference rks ks))]
+    (if-let [not-found (seq (set/difference rks ks))]
       (throw (RuntimeException. (str not-found " are required, but not found")))
       m)))
 
@@ -64,7 +68,7 @@
 
 (defn parse-bool-fn [v]
   (when v
-    (condp = (clojure.string/lower-case v)
+    (condp = (string/lower-case v)
         "true" true
         "false" false
         nil)))
@@ -103,13 +107,13 @@
                                                        nested
                                                        default]}]
   (-> props
-    (properties->map nested (if dasherize-keys dasherize identity))
-    (keywordize-keys-unless stringify-keys)
-    (parse parse-int-fn parse-int)
-    (parse parse-bool-fn parse-boolean)
-    (append default)
-    (validate required)
-    (dump dump-fn)))
+      (properties->map nested (if dasherize-keys dasherize identity))
+      (keywordize-keys-unless stringify-keys)
+      (parse parse-int-fn parse-int)
+      (parse parse-bool-fn parse-boolean)
+      (append default)
+      (validate required)
+      (dump dump-fn)))
 
 (defmethod read-properties BufferedInputStream [stream & x]
   (let [props (input-stream->properties stream)]
