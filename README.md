@@ -5,52 +5,69 @@
 
 ## An Example
 
-propertea can be used to load a property file, convert, and
-validate. The following snippet shows loading a file and converting a
-few of the properties to their desired types.
+propertea can be used to load a property file, convert, and validate. The
+following snippet shows loading a file and converting a few of the properties
+to their desired types.
 
-```clj
-;Given the following properties file
-;string-example=hello-string
-;int-example=1
-;boolean-example=true
+Given the properties file `test/fake.properties` with the following contents:
 
-(ns example
-  (:use propertea.core))
+```
+string-example=hello-string
+int-example=1
+boolean-example=true
+empty-string=
+nested.example.depth=5
+nested.example.leaves=2
+nested.withCamelCase=get-dashed
 
-(def props (read-properties "test/fake.properties"
-                            :parse-int [:int-example]
-                            :parse-boolean [:boolean-example]))
-
-(println props)
-; => {:int-example 1, :string-example "hello-string", :boolean-example true}
 ```
 
-An input stream can be used instead of a filename. This is useful to read property files in a Jar:
+```clj
+(require '[propertea.core :as prop])
+
+(prop/read-properties "test/fake.properties"
+                      :as-int [:int-example]
+                      :as-bool [:boolean-example])
+```
+```clj
+{:int-example 1, :string-example "hello-string", :boolean-example true}
+```
+
+An input stream can be used instead of a filename. This is useful to read
+property files in a Jar:
 
 ```clj
-(read-properties
+(prop/read-properties
   (.getResourceAsStream
     (.getContextClassLoader (Thread/currentThread))
     "some.properties"))
 ```
 
-propertea can also validate that required properties are specified.
+or
 
 ```clj
-; assuming the same properties file as above
+(require '[clojure.java.io :as io])
 
-(ns example
-  (:use propertea.core))
+(-> (io/resource "some.properties")
+    (io/input-stream)
+    (prop/read-properties))
+```
 
-(def props (read-properties "test/fake.properties" :required [:req-prop]))
-; => java.lang.RuntimeException: (:req-prop) are required, but not found
+propertea can also validate that required properties are specified. Assuming
+the same properties file as above:
+
+```clj
+(prop/read-properties "test/fake.properties" :required [:req-prop]))
+```
+```clj
+java.lang.RuntimeException: (:req-prop) are required, but not found
 ```
 
 
 ## Installing
 
-The easiest way is via Leiningen. Add the following dependency to your project.clj file:
+The easiest way is via Leiningen. Add the following dependency to your
+`project.clj` file:
 
 ```clj
 [clojusc/propertea "1.4.2"]
@@ -69,6 +86,7 @@ $ lein install
 
 | Release     | Clojure     | Maintainer     | Notes
 | ----------- | ----------- | -------------- | ---------------------------------- |
+| 1.5.0       | 1.10.0      | clojusc        | Backwards-compatible function changes; breaking arg changes |
 | 1.4.2       | 1.10.0      | clojusc        | 100% compatible with 1.4.1         |
 | 1.4.1       | 1.5.1       | Joshua Eckroth | Version from which clojusc forked  |
 | 1.3.1       | 1.2.0       | Jay Fields     | Version from which Josh forked     |

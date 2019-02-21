@@ -60,13 +60,13 @@
       (f (pr-str k v))))
   m)
 
-(defn parse-int-fn [v]
+(defn parse-int [v]
   (try
     (Integer/parseInt v)
     (catch NumberFormatException e
       nil)))
 
-(defn parse-bool-fn [v]
+(defn parse-bool [v]
   (when v
     (condp = (string/lower-case v)
         "true" true
@@ -98,27 +98,35 @@
 
 (defmulti read-properties (fn [x & _] (class x)))
 
-(defmethod read-properties Properties [props & {:keys [dump-fn
-                                                       required
-                                                       parse-int
-                                                       parse-boolean
-                                                       stringify-keys
-                                                       dasherize-keys
-                                                       nested
-                                                       default]}]
+(defmethod read-properties Properties
+  [props & {:keys [dump-fn
+                   required
+                   as-int
+                   as-bool
+                   stringify-keys
+                   dasherize-keys
+                   nested
+                   default]}]
   (-> props
       (properties->map nested (if dasherize-keys dasherize identity))
       (keywordize-keys-unless stringify-keys)
-      (parse parse-int-fn parse-int)
-      (parse parse-bool-fn parse-boolean)
+      (parse parse-int as-int)
+      (parse parse-bool as-bool)
       (append default)
       (validate required)
       (dump dump-fn)))
 
-(defmethod read-properties BufferedInputStream [stream & x]
+(defmethod read-properties BufferedInputStream
+  [stream & x]
   (let [props (input-stream->properties stream)]
     (apply read-properties props x)))
 
-(defmethod read-properties :default [file & x]
+(defmethod read-properties :default
+  [file & x]
   (let [props (file-name->properties file)]
     (apply read-properties props x)))
+
+;;; Backwards compatibility
+
+(def parse-int-fn parse-int)
+(def parse-bool-fn parse-bool)
