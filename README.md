@@ -131,7 +131,7 @@ The easiest way is via Leiningen. Add the following dependency to your
 `project.clj` file:
 
 ```clj
-[clojusc/propertea "1.5.0"]
+[clojusc/propertea "1.6.0-SNAPSHOT"]
 ```
 
 To build from source and install locally, run the following commands:
@@ -147,6 +147,7 @@ $ lein install
 
 | Release     | Clojure     | Maintainer     | Notes
 | ----------- | ----------- | -------------- | ---------------------------------- |
+| 1.6.0       | 1.10.0      | clojusc        | TBD                                |
 | 1.5.0       | 1.10.0      | clojusc        | Backwards-compatible function changes; breaking arg changes |
 | 1.4.2       | 1.10.0      | clojusc        | 100% compatible with 1.4.1         |
 | 1.4.1       | 1.5.1       | Joshua Eckroth | Version from which clojusc forked  |
