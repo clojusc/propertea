@@ -68,6 +68,7 @@ or
 (require '[clojure.java.io :as io])
 
 (-> (io/resource "some.properties")
+    (io/file)
     (io/input-stream)
     (prop/read))
 ```
@@ -85,7 +86,43 @@ java.lang.RuntimeException: (:req-prop) are required, but not found
 
 ## Maps <-> Properties [&#x219F;](#contents)
 
-TBD
+Some Java libraries expect data (often configuration data) to be in the form of
+`java.util.Properties`. propertea makes this a sane prospect when interoping
+with such libraries:
+
+```clj
+(def m2p (prop/map->props {:thing1 "one" :thing2 "two"}))
+m2p
+```
+```clj
+{"thing2" "two", "thing1" "one"}
+```
+```clj
+(type m2p)
+```
+```clj
+java.util.Properties
+```
+
+You can, of course, take this in the other direction:
+
+```clj
+(prop/props->map m2p)
+```
+```clj
+{"thing2" "two", "thing1" "one"}
+```
+
+As you can see, by default that returns hash-maps with keys as strings. If you
+pass a function in addition to the data, that function will be applied to each
+keyword:
+
+```clj
+(prop/props->map m2p keyword)
+```
+```clj
+{:thing2 "two", :thing1 "one"}
+```
 
 
 ## Installing [&#x219F;](#contents)
