@@ -6,7 +6,7 @@
   (:import
     (java.util Properties)))
 
-(def fp (io/file "test/fake.properties"))
+(def fp (io/file (io/resource "fake.properties")))
 (def instream (io/input-stream fp))
 (def props (doto (Properties.)
                  (.setProperty "key-from-properties" "value-in-properties")))
