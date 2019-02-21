@@ -8,3 +8,5 @@ classes
 package.fig
 /target
 .eastwood
+.lein*
+.nrepl*

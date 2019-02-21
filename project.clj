@@ -1,8 +1,31 @@
+(defn get-banner
+  []
+  (try
+    (str
+      (slurp "resources/text/banner.txt")
+      ; (slurp "resources/text/loading.txt")
+      )
+    ;; If another project can't find the banner, just skip it;
+    ;; this function is really only meant to be used by Dragon itself.
+    (catch Exception _ "")))
+
+(defn get-prompt
+  [ns]
+  (str "\u001B[35m[\u001B[34m"
+       ns
+       "\u001B[35m]\u001B[33m =>\u001B[m "))
+
 (defproject clojusc/propertea "1.5.0-SNAPSHOT"
   :description "Load, coerce, and validate property files."
   :dependencies [
     [org.clojure/clojure "1.10.0"]]
   :profiles {
+    :dev {
+      :source-paths ["dev-resources/src"]
+      :repl-options {
+        :init-ns propertea.repl
+        :prompt ~get-prompt
+        :init ~(println (get-banner))}}
     :ubercompile {
       :aot :all}
     :lint {
