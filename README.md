@@ -155,6 +155,8 @@ $ lein install
 
 ## License [&#x219F;](#contents)
 
+BSD 3-Clause License
+
 Copyright © 2010-2012, Jay Fields
 
 Copyright © 2013-2014, Joshua Eckroth
