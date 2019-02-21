@@ -11,15 +11,19 @@
 *Simple property loading, coercing, and validating*
 
 
-#### Table of Contents
+#### Contents
 
-* [An Example](#an-example-)
+* [Usage](#usage-)
+  * [Reading Property Files and Streams](#reading-property-files-and-streams-)
+  * [Maps <-> Properties](#maps---properties-)
 * [Installing](#installing-)
 * [Version History](#version-history-)
 * [License](#license-)
 
 
-## An Example
+## Usage [&#x219F;](#contents)
+
+### Reading Property Files and Streams [&#x219F;](#contents)
 
 propertea can be used to load a property file, convert, and validate. The
 following snippet shows loading a file and converting a few of the properties
@@ -79,13 +83,18 @@ java.lang.RuntimeException: (:req-prop) are required, but not found
 ```
 
 
-## Installing
+## Maps <-> Properties [&#x219F;](#contents)
+
+TBD
+
+
+## Installing [&#x219F;](#contents)
 
 The easiest way is via Leiningen. Add the following dependency to your
 `project.clj` file:
 
 ```clj
-[clojusc/propertea "1.4.2"]
+[clojusc/propertea "1.5.0-SNAPSHOT"]
 ```
 
 To build from source and install locally, run the following commands:
@@ -97,7 +106,7 @@ $ lein install
 ```
 
 
-## Version History
+## Version History [&#x219F;](#contents)
 
 | Release     | Clojure     | Maintainer     | Notes
 | ----------- | ----------- | -------------- | ---------------------------------- |
@@ -107,7 +116,7 @@ $ lein install
 | 1.3.1       | 1.2.0       | Jay Fields     | Version from which Josh forked     |
 
 
-## License
+## License [&#x219F;](#contents)
 
 Copyright © 2010-2012, Jay Fields
 
