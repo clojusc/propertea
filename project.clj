@@ -17,6 +17,10 @@
 
 (defproject clojusc/propertea "1.5.0-SNAPSHOT"
   :description "Load, coerce, and validate property files."
+  :url ""
+  :license {
+    :name "BSD 3-Clause"
+    :url "https://opensource.org/licenses/BSD-3-Clause"}
   :dependencies [
     [org.clojure/clojure "1.10.0"]]
   :profiles {
