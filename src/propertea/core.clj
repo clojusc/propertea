@@ -8,12 +8,14 @@
     (java.util Properties))
   (:refer-clojure :exclude [read]))
 
-(defn keywordize-keys-unless [m b]
+(defn keywordize-keys-unless
+  [m b]
   (if b
     m
     (walk/keywordize-keys m)))
 
-(defn dash-match [[ _ g1 g2]]
+(defn dash-match
+  [[ _ g1 g2]]
   (str g1 "-" g2))
 
 (defn dasherize [k]
@@ -22,7 +24,8 @@
       (string/replace #"([a-z\d])([A-Z])" dash-match)
       (string/lower-case)))
 
-(defn props->map [props nested kf]
+(defn props->map
+  [props nested kf]
   (reduce (fn [r [k v]]
             (if nested
               (assoc-in r (string/split (kf k) #"\.") v)
@@ -30,51 +33,61 @@
           {}
           props))
 
-(defn input-stream->properties [stream]
+(defn input-stream->properties
+  [stream]
   (doto (Properties.) (.load stream)))
 
-(defn file-name->properties [file-name]
+(defn file-name->properties
+  [file-name]
   (doto (Properties.)
     (.load (FileReader. file-name))))
 
 (defmulti valid? class :default :default)
 
-(defmethod valid? String [a]
+(defmethod valid? String
+  [a]
   (seq a))
 
-(defmethod valid? nil [a]
+(defmethod valid? nil
+  [a]
   false)
 
-(defmethod valid? :default [a]
+(defmethod valid? :default
+  [a]
   true)
 
-(defn validate [m required-list]
+(defn validate
+  [m required-list]
   (let [ks (reduce (fn [r [k v]] (if (valid? v) (conj r k) r)) #{} m)
         rks (set required-list)]
     (if-let [not-found (seq (set/difference rks ks))]
       (throw (RuntimeException. (str not-found " are required, but not found")))
       m)))
 
-(defn dump [m f]
+(defn dump
+  [m f]
   (when f
     (doseq [[k v] m]
       (f (pr-str k v))))
   m)
 
-(defn parse-int [v]
+(defn parse-int
+  [v]
   (try
     (Integer/parseInt v)
     (catch NumberFormatException e
       nil)))
 
-(defn parse-bool [v]
+(defn parse-bool
+  [v]
   (when v
     (condp = (string/lower-case v)
         "true" true
         "false" false
         nil)))
 
-(defn parse [m f ks]
+(defn parse
+  [m f ks]
   (reduce
    (fn [r e]
      (if (contains? r e)
@@ -83,7 +96,8 @@
    m
    ks))
 
-(defn map->props [m]
+(defn map->props
+  [m]
   (reduce
    (fn [r [k v]]
      (cond
@@ -94,7 +108,8 @@
    (Properties.)
    m))
 
-(defn append [m defaults]
+(defn append
+  [m defaults]
   (merge (apply hash-map defaults) m))
 
 (defmulti read (fn [x & _] (class x)))
