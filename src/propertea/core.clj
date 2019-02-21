@@ -5,7 +5,8 @@
     [clojure.walk :as walk])
   (:import
     (java.io FileReader BufferedInputStream)
-    (java.util Properties)))
+    (java.util Properties))
+  (:refer-clojure :exclude [read]))
 
 (defn keywordize-keys-unless [m b]
   (if b
@@ -96,9 +97,9 @@
 (defn append [m defaults]
   (merge (apply hash-map defaults) m))
 
-(defmulti read-properties (fn [x & _] (class x)))
+(defmulti read (fn [x & _] (class x)))
 
-(defmethod read-properties Properties
+(defmethod read Properties
   [props & {:keys [dump-fn
                    required
                    as-int
@@ -116,17 +117,18 @@
       (validate required)
       (dump dump-fn)))
 
-(defmethod read-properties BufferedInputStream
+(defmethod read BufferedInputStream
   [stream & x]
   (let [props (input-stream->properties stream)]
-    (apply read-properties props x)))
+    (apply read props x)))
 
-(defmethod read-properties :default
+(defmethod read :default
   [file & x]
   (let [props (file-name->properties file)]
-    (apply read-properties props x)))
+    (apply read props x)))
 
 ;;; Backwards compatibility
 
 (def parse-int-fn parse-int)
 (def parse-bool-fn parse-bool)
+(def read-properties read)

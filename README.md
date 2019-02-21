@@ -25,9 +25,9 @@ nested.withCamelCase=get-dashed
 ```clj
 (require '[propertea.core :as prop])
 
-(prop/read-properties "test/fake.properties"
-                      :as-int [:int-example]
-                      :as-bool [:boolean-example])
+(prop/read "test/fake.properties"
+           :as-int [:int-example]
+           :as-bool [:boolean-example])
 ```
 ```clj
 {:int-example 1, :string-example "hello-string", :boolean-example true}
@@ -37,7 +37,7 @@ An input stream can be used instead of a filename. This is useful to read
 property files in a Jar:
 
 ```clj
-(prop/read-properties
+(prop/read
   (.getResourceAsStream
     (.getContextClassLoader (Thread/currentThread))
     "some.properties"))
@@ -50,14 +50,14 @@ or
 
 (-> (io/resource "some.properties")
     (io/input-stream)
-    (prop/read-properties))
+    (prop/read))
 ```
 
 propertea can also validate that required properties are specified. Assuming
 the same properties file as above:
 
 ```clj
-(prop/read-properties "test/fake.properties" :required [:req-prop]))
+(prop/read "test/fake.properties" :required [:req-prop]))
 ```
 ```clj
 java.lang.RuntimeException: (:req-prop) are required, but not found
