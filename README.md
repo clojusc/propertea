@@ -131,7 +131,7 @@ The easiest way is via Leiningen. Add the following dependency to your
 `project.clj` file:
 
 ```clj
-[clojusc/propertea "1.5.0-SNAPSHOT"]
+[clojusc/propertea "1.5.0"]
 ```
 
 To build from source and install locally, run the following commands:

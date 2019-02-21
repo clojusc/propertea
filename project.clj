@@ -15,7 +15,7 @@
        ns
        "\u001B[35m]\u001B[33m =>\u001B[m "))
 
-(defproject clojusc/propertea "1.5.0-SNAPSHOT"
+(defproject clojusc/propertea "1.5.0"
   :description "Load, coerce, and validate property files."
   :url ""
   :license {
