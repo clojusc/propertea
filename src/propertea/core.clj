@@ -25,13 +25,17 @@
       (string/lower-case)))
 
 (defn props->map
-  [props nested kf]
-  (reduce (fn [r [k v]]
-            (if nested
-              (assoc-in r (string/split (kf k) #"\.") v)
-              (assoc r (kf k) v)))
-          {}
-          props))
+  ([props]
+    (props->map props identity))
+  ([props key-fn]
+    (props->map props false key-fn))
+  ([props nested kf]
+    (reduce (fn [r [k v]]
+              (if nested
+                (assoc-in r (string/split (kf k) #"\.") v)
+                (assoc r (kf k) v)))
+            {}
+            props)))
 
 (defn input-stream->properties
   [stream]
