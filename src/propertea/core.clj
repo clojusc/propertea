@@ -22,7 +22,7 @@
       (string/replace #"([a-z\d])([A-Z])" dash-match)
       (string/lower-case)))
 
-(defn properties->map [props nested kf]
+(defn props->map [props nested kf]
   (reduce (fn [r [k v]]
             (if nested
               (assoc-in r (string/split (kf k) #"\.") v)
@@ -83,7 +83,7 @@
    m
    ks))
 
-(defn map->properties [m]
+(defn map->props [m]
   (reduce
    (fn [r [k v]]
      (cond
@@ -109,7 +109,7 @@
                    nested
                    default]}]
   (-> props
-      (properties->map nested (if dasherize-keys dasherize identity))
+      (props->map nested (if dasherize-keys dasherize identity))
       (keywordize-keys-unless stringify-keys)
       (parse parse-int as-int)
       (parse parse-bool as-bool)
@@ -127,8 +127,10 @@
   (let [props (file-name->properties file)]
     (apply read props x)))
 
-;;; Backwards compatibility
+;;; Aliases to support backwards compatibility
 
 (def parse-int-fn parse-int)
 (def parse-bool-fn parse-bool)
 (def read-properties read)
+(def map->properties map->props)
+(def properties->map props->map)
