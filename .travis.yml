@@ -3,7 +3,6 @@ lein: 2.8.3
 script:
   - lein build
 jdk:
-  - oraclejdk8
   - openjdk8
   - openjdk11
 env:
@@ -11,4 +10,3 @@ env:
 notifications:
   email:
       - oubiwann@gmail.com
-
