@@ -22,7 +22,7 @@
     :name "BSD 3-Clause"
     :url "https://opensource.org/licenses/BSD-3-Clause"}
   :dependencies [
-    [org.clojure/clojure "1.10.0"]]
+    [org.clojure/clojure "1.10.1"]]
   :profiles {
     :dev {
       :source-paths ["dev-resources/src"]
@@ -36,9 +36,9 @@
       :source-paths ^:replace ["src"]
       :test-paths ^:replace []
       :plugins [
-        [jonase/eastwood "0.3.5"]
+        [jonase/eastwood "0.3.6"]
         [lein-ancient "0.6.15"]
-        [lein-kibit "0.1.6"]]}
+        [lein-kibit "0.1.7"]]}
     :test {
       :dependencies [
         [expectations "2.1.10"]]
